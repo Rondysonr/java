@@ -3,5 +3,5 @@
 
 # compilação
 '''Shell
-make intal
+make intall
 '''
