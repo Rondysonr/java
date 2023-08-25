@@ -15,7 +15,10 @@ int enqueue(DoublyLinkedList *list, void *data){
     Node *newNode = (Node*)Malloc(sizeof(Node));
     if (newNode==NULL)return -1;
     newNode->data =data;
-    NewNode->
+    NewNode-> previous-> next= newNode;
+    list->first -> previous =newNode;
+    list-> size++;
+    return 1;
 }
 
 void show(DoublyLinkedList *list, printNode Print){
