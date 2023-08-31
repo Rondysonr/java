@@ -59,7 +59,7 @@ void* top(DoublyLinkedList *list){
     return first(list);
 }
 
-boll isEmpty(DoublyLinkedList *list){
+bool isEmpty(DoublyLinkedList *list){
     return (list-> size==0);
 }
 
