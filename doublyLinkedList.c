@@ -20,6 +20,48 @@ int enqueue(DoublyLinkedList *list, void *data){
     list-> size++;
     return 1;
 }
+void* dequeue(DoublyLinkedList *list){
+    if (isEmpty(list)) return NULL;
+    Node *trash = list -> first;
+    Node *first = list->first->next;
+    first->nextprevious = trash;
+    trash->next =first->next;
+    void *data = first->data;
+    free(first);
+    list->size--;
+    return data;
+}
+
+void* first(DoublyLinkedList *list){
+    return list ->first->next->data;
+}
+void* last(DoublyLinkedList *list){
+    return list ->first->previous->data;
+}
+
+int push(DoublyLinkedList *list, void*data){
+    Node *newNode = (Node*) malloc(sizeof(Node));
+    if (newNode==NULL) return -1;
+    newNode->data = data;
+    newNode->next = list->first->next;
+    newNode->previous = list ->first;
+    list->first->next->previous = newNode;
+    list->first->next = newNode;
+    list->size++;
+    return 1;
+}
+
+void* pop(DoublyLinkedList *list){
+    return dequeue(list);
+}
+
+void* top(DoublyLinkedList *list){
+    return first(list);
+}
+
+boll isEmpty(DoublyLinkedList *list){
+    return (list-> size==0);
+}
 
 void show(DoublyLinkedList *list, printNode Print){
     Node *aux = list->first->next;
