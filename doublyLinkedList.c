@@ -63,6 +63,31 @@ bool isEmpty(DoublyLinkedList *list){
     return (list-> size==0);
 }
 
+int indexOf(DoublyLinkedList *list, noid *data, compare equal){
+    if (isEmpty (list)) return -1;
+    int count=0;
+    Node *aux = list->first->next;
+    while(aux!=list->first && !equal(aux->data, data)){
+        aux=aux->next;
+        count++;
+    }
+    return (aux==list-> first)?-1:count;
+}
+
+Node* getNodeByPos(DoublyLinkedList *list, int pos){
+    if (isEmpty(list) || pos>=list->size) return NULL;
+    Node *aux = list->first->next;
+    for (int count=0;(aux!list->first && count<pos);count++, aux=aux->next);
+    return aux; 
+}
+
+void* getPos (DoublyLinkedList *list,int pos){
+    Node *res = getNodeByPos(list, pos);
+    return (res==NULL)?NULL: res->data;
+}
+
+int add
+
 void show(DoublyLinkedList *list, printNode Print){
     Node *aux = list->first->next;
     while (aux!=list -> first){
