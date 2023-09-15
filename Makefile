@@ -2,12 +2,12 @@ ola: clean
 	@echo "=================================="
 	@echo "         PROGRAMA LISTA"
 	@echo "=================================="
-	@echo "- Compilando ola mundo"
-	gcc LinkedList.h LinkedList.c LinkedListTest.c -o lista
+	@echo "- Compilando GeneralizedList"
+	gcc GeneralizedLinkedList.h GeneralizedLinkedList.c GeneralizedLinkedListTest.c -o lista
 	@echo "- Torna o programa olamundo executásvel"
-	chmod +x ola
+	chmod +x lista
 	@echo "- Executando o programa ola mundo"
-	./ola
+	./lista
 	@echo "=================================="
 
 clean:
