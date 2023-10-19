@@ -3,11 +3,11 @@ ola: clean
 	@echo "         PROGRAMA HASH"
 	@echo "=================================="
 	@echo "- Compilando WORK_HASH"
-	gcc WorkHash.h WorkHash.c WorkHashTest.c -o lista
-	@echo "- Torna o programa olamundo executásvel"
-	chmod +x lista
-	@echo "- Executando o programa ola mundo"
-	./lista
+	gcc WorkHash.h WorkHash.c WorkHashTest.c -o WorkHash
+	@echo "- Torna o programa WorkHash executásvel"
+	chmod +x WorkHash
+	@echo "- Executando o WorkHash"
+	./WorkHash
 	@echo "=================================="
 
 clean:

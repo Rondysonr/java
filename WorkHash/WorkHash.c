@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "hash_table.h"
+#include "WorkHash.h"
 
 // Função de dispersão simples - calcular um índice com base na chave
 unsigned int hash(char* key, int size) {

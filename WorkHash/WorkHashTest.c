@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "hash_table.h"
+#include <string.h>
+#include "WorkHash.h"
 
 int main() {
     struct HashTable* table = createHashTable(100);
@@ -25,8 +26,13 @@ int main() {
 
     // Agora, a tabela de dispersão contém as palavras lidas do arquivo.
 
+
+
+
+
+
     // Liberação de memória
-    for (int i = 0; i < table->size; i++) {
+/*    for (int i = 0; i < table->size; i++) {
         struct Node* current = table->array[i];
         while (current != NULL) {
             struct Node* temp = current;
@@ -36,7 +42,7 @@ int main() {
         }
     }
     free(table->array);
-    free(table);
+    free(table);*/
 
     return 0;
 }
