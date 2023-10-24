@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "Hash.h"
+#include "WorkHash.h"
 
 void initHash(HashStruct *hashStruct) {
     for (int i=0;i<MAX;i++) {
