@@ -1,22 +1,20 @@
-#ifndef HASH_TABLE_H
-#define HASH_TABLE_H
+#ifndef EstruturaDeDados_Hash_h
+#define EstruturaDeDados_Hash_h
+#include "DoublyLinkedList.h"
+#define MAX 10
 
-// Definir a estrutura para um nó de lista ligada
-struct Node {
-    char* key;
-    int value;
-    struct Node* next;
-};
+typedef struct HashStruct {
+    DoublyLinkedList hashes[MAX];
+    int size;
+}HashStruct;
 
-// Definir a estrutura da tabela de dispersão
-struct HashTable {
-    int size;
-    struct Node** array;
-};
+void initHash(HashStruct *hashStruct);
+bool isHashEmpty(HashStruct *hashStruct);
+int hash(char *key);
+int put(HashStruct *hashStruct, char *key, void *data, compare equal);
+bool containsKey(HashStruct *hashStruct, char *key, compare equal);
+void* get(HashStruct *hashStruct, char *key, compare equal);
+void* removeKey(HashStruct *hashStruct, char *key, compare equal);
+void showHashStruct(HashStruct *hashStruct);
 
-// Funções da tabela de dispersão
-struct HashTable* createHashTable(int size);
-void insert(struct HashTable* table, char* key, int value);
-int get(struct HashTable* table, char* key);
-
-#endif  // HASH_TABLE_H
+#endif
