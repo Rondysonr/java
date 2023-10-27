@@ -4,8 +4,8 @@
 #define MAX 10
 
 typedef struct HashStruct {
-    DoublyLinkedList hashes[MAX];
-    int size;
+    DoublyLinkedList hashes[MAX];
+    int size;
 }HashStruct;
 
 void initHash(HashStruct *hashStruct);
