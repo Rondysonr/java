@@ -3,7 +3,7 @@ ola: clean
 	@echo "         PROGRAMA HASH"
 	@echo "=================================="
 	@echo "- Compilando WORK_HASH"
-	gcc WorkHash.h WorkHash.c WorkHashTest.c -o WorkHash
+	gcc  DoublyLinkedList.h DoublyLinkedList.c WorkHash.h WorkHash.c WorkHashTest.c -o WorkHash
 	@echo "- Torna o programa WorkHash executásvel"
 	chmod +x WorkHash
 	@echo "- Executando o WorkHash"
