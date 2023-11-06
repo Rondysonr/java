@@ -21,6 +21,17 @@ int customHash(char *key) {
     return productSum % MAX_PIXELS;
 }
 
+int efficientHash(char *key) {
+    unsigned int hash = 0;
+    unsigned int prime = 31;  // Um número primo adequado
+
+    for (int i = 0; key[i] != '\0'; i++) {
+        hash = (hash * prime) + key[i];
+    }
+
+    return hash % MAX_PIXELS;
+}
+
 bool compare_dados(void* data_1, void* data_2) {
     return strcmp((char*)data_1, (char*)data_2) == 0;
 }
@@ -77,6 +88,7 @@ int main() {
     printf("Escolha uma opcao de distribuicao:\n");
     printf("1. Distribuicao original\n");
     printf("2. Nova distribuicao (letras multiplicadas)\n");
+    printf("3. Distribuicao eficiente\n");
     printf("Opcao: ");
     scanf("%d", &escolha);
 
@@ -109,6 +121,8 @@ int main() {
             hashValue = hash(word);
         } else if (escolha == 2) {
             hashValue = customHash(word);
+        } else if (escolha == 3) {
+            hashValue = efficientHash(word);
         } else {
             fprintf(stderr, "Opcao invalida.\n");
             break;
@@ -128,6 +142,7 @@ int main() {
 
     return EXIT_SUCCESS;
 }
+
 
 
 
