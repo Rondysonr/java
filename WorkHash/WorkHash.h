@@ -19,6 +19,6 @@ bool containsKey(HashStruct *hashStruct, char *key, compare equal);
 void* get(HashStruct *hashStruct, char *key, compare equal);
 void* removeKey(HashStruct *hashStruct, char *key, compare equal);
 void showHashStruct(HashStruct *hashStruct, printNode print);
-
+int maxElementsInKey(HashStruct *hashStruct);
 
 #endif
