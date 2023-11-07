@@ -1,35 +1,54 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
+#include <math.h>
 
 #include "WorkHash.h"
 
-#define MAX_PIXELS 3000
-
-// Protótipo da função customHash
-int customHash(char *key) {
-    int productSum = 0;
-    if (key[0] != '\0') {
-        productSum += key[0] * 7;
-    }
-    if (key[2] != '\0') {
-        productSum += key[2] * 5;
-    }
-    if (key[4] != '\0') {
-        productSum += key[4] * 13;
-    }
-    return productSum % MAX_PIXELS;
-}
+#define IMAGE_WIDTH 128
+#define IMAGE_HEIGHT 128
+#define MAX_PIXELS (IMAGE_WIDTH * IMAGE_HEIGHT)
 
 int efficientHash(char *key) {
-    unsigned int hash = 0;
-    unsigned int prime = 31;  // Um número primo adequado
+    int hashValue = 0;
 
     for (int i = 0; key[i] != '\0'; i++) {
-        hash = (hash * prime) + key[i];
+        hashValue = (hashValue * 31) + key[i];
     }
 
-    return hash % MAX_PIXELS;
+    if (hashValue < 0) {
+        hashValue = -hashValue;
+    }
+
+    return hashValue % MAX_PIXELS;
+}
+
+
+int customHash(char *key) {
+    int primeNumbers[] = {2, 3, 5, 7, 11};
+    int productSum = 0;
+
+    for (int i = 0; key[i] != '\0'; i++) {
+        char c = tolower(key[i]);
+        int multiplier = 1;
+
+        if (c == 'a') {
+            multiplier = primeNumbers[0];
+        } else if (c == 'e') {
+            multiplier = primeNumbers[1];
+        } else if (c == 'i') {
+            multiplier = primeNumbers[2];
+        } else if (c == 'o') {
+            multiplier = primeNumbers[3];
+        } else if (c == 'u') {
+            multiplier = primeNumbers[4];
+        }
+
+        productSum += key[i] * multiplier;
+    }
+
+    return productSum % MAX_PIXELS;
 }
 
 bool compare_dados(void* data_1, void* data_2) {
@@ -43,12 +62,12 @@ void print(void* data) {
     }
 }
 
-int calculateGreenTone(int numElements) {
-    int greenTone = (numElements * 255) / MAX_PIXELS;
+int calculateGreenTone(int numElements, int maxElements) {
+    int greenTone = (numElements * 255) / maxElements;
     return greenTone;
 }
 
-void createPPMImage(const char* filename, int* greenTones) {
+void createPPMImage(const char* filename, int** distributionMatrix, int maxElements) {
     FILE* imageFile = fopen(filename, "w");
 
     if (!imageFile) {
@@ -56,13 +75,15 @@ void createPPMImage(const char* filename, int* greenTones) {
         return;
     }
 
-    fprintf(imageFile, "P3\n"); // Cabeçalho PPM P3
-    fprintf(imageFile, "%d %d\n", MAX_PIXELS, MAX_PIXELS); // Tamanho da imagem fixo em 3000x3000
-    fprintf(imageFile, "255\n"); // Valor máximo de cor
+    fprintf(imageFile, "P3\n");
+    fprintf(imageFile, "%d %d\n", IMAGE_WIDTH, IMAGE_HEIGHT);
+    fprintf(imageFile, "255\n");
 
-    for (int i = 0; i < MAX_PIXELS; i++) {
-        for (int j = 0; j < MAX_PIXELS; j++) {
-            int greenTone = greenTones[i];
+    for (int i = 0; i < IMAGE_HEIGHT; i++) {
+        for (int j = 0; j < IMAGE_WIDTH; j++) {
+            int numElements = distributionMatrix[i][j];
+            int greenTone = calculateGreenTone(numElements, maxElements);
+
             fprintf(imageFile, "0 %d 0 ", greenTone);
         }
         fprintf(imageFile, "\n");
@@ -85,30 +106,32 @@ int main() {
     initHash(&tabela);
 
     int escolha;
-    printf("Escolha uma opcao de distribuicao:\n");
+    printf("\n\nEscolha uma opcao de distribuicao:\n");
     printf("1. Distribuicao original\n");
-    printf("2. Nova distribuicao (letras multiplicadas)\n");
+    printf("2. Distribuicao multiplicacao de vogais\n");
     printf("3. Distribuicao eficiente\n");
     printf("Opcao: ");
     scanf("%d", &escolha);
 
-    int* greenTones = (int*)malloc(sizeof(int) * MAX_PIXELS);
-    if (greenTones == NULL) {
-        fprintf(stderr, "Falha na alocação de memória para tons de verde.\n");
-        fclose(arquivo);
-        return EXIT_FAILURE;
+    int** distributionMatrix = (int**)malloc(sizeof(int*) * IMAGE_HEIGHT);
+    for (int i = 0; i < IMAGE_HEIGHT; i++) {
+        distributionMatrix[i] = (int*)malloc(sizeof(int) * IMAGE_WIDTH);
+        for (int j = 0; j < IMAGE_WIDTH; j++) {
+            distributionMatrix[i][j] = 0;
+        }
     }
 
-    for (int i = 0; i < MAX_PIXELS; i++) {
-        greenTones[i] = 0;
-    }
+    int maxElements = 0;
 
     char* string = (char*)malloc(sizeof(char) * 100);
 
     if (string == NULL) {
         fprintf(stderr, "Falha na alocação de memória.\n");
         fclose(arquivo);
-        free(greenTones);
+        for (int i = 0; i < IMAGE_HEIGHT; i++) {
+            free(distributionMatrix[i]);
+        }
+        free(distributionMatrix);
         return EXIT_FAILURE;
     }
 
@@ -129,21 +152,26 @@ int main() {
         }
 
         put(&tabela, word, word, compare_dados);
-        greenTones[hashValue]++;
+        distributionMatrix[hashValue / IMAGE_WIDTH][hashValue % IMAGE_WIDTH]++;
+
+        if (distributionMatrix[hashValue / IMAGE_WIDTH][hashValue % IMAGE_WIDTH] > maxElements) {
+            maxElements = distributionMatrix[hashValue / IMAGE_WIDTH][hashValue % IMAGE_WIDTH];
+        }
     }
 
-    showHashStruct(&tabela, print);
+        printf("\n");
 
-    createPPMImage("imagem_hash.ppm", greenTones);
+    createPPMImage("imagem_hash.ppm", distributionMatrix, maxElements);
 
     fclose(arquivo);
     free(string);
-    free(greenTones);
+    for (int i = 0; i < IMAGE_HEIGHT; i++) {
+        free(distributionMatrix[i]);
+    }
+    free(distributionMatrix);
 
     return EXIT_SUCCESS;
 }
-
-
 
 
 
