@@ -3,7 +3,7 @@
 
 #include "DoublyLinkedList.h"
 
-#define MAX 3000
+#define MAX 1024
 
 typedef struct HashStruct {
     DoublyLinkedList hashes[MAX];

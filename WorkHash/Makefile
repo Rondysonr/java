@@ -1,4 +1,4 @@
-ola: clean
+run: clean
 	@echo "=================================="
 	@echo "         PROGRAMA HASH"
 	@echo "=================================="
@@ -14,7 +14,7 @@ clean:
 	@echo "===================================="
 	@echo "Removendo os programas compilados"
 	@echo "===================================="
-	@echo "Removendo o programa olamundo"
+	@echo "Removendo o programa WorkHash"
 	rm -f ola
 	@echo "===================================="
 
@@ -23,5 +23,5 @@ help:
 	@echo "         AJUDA"
 	@echo "======================"
 	@echo "help		| ajuda"
-	@echo "ela		| executar mensagem de texto"
-	@echo "clean| apagar codigos compilados"
+	@echo "run		| executar o codigos"
+	@echo "clean    | apagar codigos compilados"
