@@ -125,6 +125,6 @@ void decodeHuffman(struct Node* root, FILE* compressFile, FILE* compressAsciFile
 void printFrequencies(char data[], int freq[], int size) {
     printf("Caracteres e suas frequências:\n");
     for (int i = 0; i < size; ++i) {
-        printf("'%c': %d\n", data[i], freq[i]);
+        printf("'%c': %d - %d \n", data[i], freq[i], printCodesUtil(struct MinHeapNode* root, int arr[], int top, FILE* compressFile));
     }
 }

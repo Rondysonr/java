@@ -1,27 +1,13 @@
-run: clean
-	@echo "=================================="
-	@echo "         PROGRAMA ARVORE"
-	@echo "=================================="
-	@echo "- Compilando ARVORE"
-	gcc  arvore.h arvore.c arvoretest.c -o arvore -lm
-	@echo "- Torna o programa arvore executásvel"
-	chmod +x ARVORE
-	@echo "- Executando ARVORE"
-	./ARVORE
-	@echo "=================================="
+all: meu_programa
+
+meu_programa: arvoretest.o arvore.o
+	gcc arvoretest.o arvore.o -o meu_programa -lm
+
+arvore.o: arvore.c
+	gcc -c arvore.c
+
+arvoretest.o: arvoretest.c
+	gcc -c arvoretest.c
 
 clean:
-	@echo "===================================="
-	@echo "Removendo os programas compilados"
-	@echo "===================================="
-	@echo "Removendo o programa WorkHash"
-	rm -f ola
-	@echo "===================================="
-
-help:
-	@echo "======================"
-	@echo "         AJUDA"
-	@echo "======================"
-	@echo "help		| ajuda"
-	@echo "run		| executar o codigos"
-	@echo "clean    | apagar codigos compilados"
+	rm -f meu_programa arvore.o arvoretest.o
