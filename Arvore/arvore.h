@@ -1,26 +1,36 @@
+// arvore.h
 #include <stdio.h>
 #include <stdlib.h>
+#ifndef ARVORE_H
+#define ARVORE_H
 
-struct Node {
+struct MinHeapNode {
     char data;
     unsigned freq;
-    struct Node *left, *right;
+    struct MinHeapNode *left, *right;
 };
 
 struct MinHeap {
     unsigned size;
     unsigned capacity;
-    struct Node **array;
+    struct MinHeapNode **array;
 };
 
-struct Node* newNode(char data, unsigned freq);
+struct MinHeapNode* newNode(char data, unsigned freq);
 struct MinHeap* createMinHeap(unsigned capacity);
-void swapNode(struct Node** a, struct Node** b);
+void swapMinHeapNode(struct MinHeapNode** a, struct MinHeapNode** b);
 void minHeapify(struct MinHeap* minHeap, int idx);
 int isSizeOne(struct MinHeap* minHeap);
-struct Node* extractMin(struct MinHeap* minHeap);
-void insertMinHeap(struct MinHeap* minHeap, struct Node* node);
-struct Node* buildHuffmanTree(char data[], int freq[], int size);
-void printCodes(struct Node* root, int arr[], int top, FILE* compressFile);
-void decodeHuffman(struct Node* root, FILE* compressFile, FILE* compressAsciFile);
+struct MinHeapNode* extractMin(struct MinHeap* minHeap);
+void insertMinHeap(struct MinHeap* minHeap, struct MinHeapNode* minHeapNode);
+void buildMinHeap(struct MinHeap* minHeap);
+struct MinHeapNode* buildHuffmanTree(char data[], int freq[], int size);
+void printCodesUtil(struct MinHeapNode* root, int arr[], int top, FILE* compressFile);
+void printCodes(struct MinHeapNode* root, int arr[], int top, FILE* compressFile);
+void printFrequenciesWithCodesUtil(struct MinHeapNode* root, char data[], int freq[], int size, int arr[], int top);
+void printFrequenciesWithCodes(struct MinHeapNode* root, char data[], int freq[], int size, int arr[], int top);
 void printFrequencies(char data[], int freq[], int size);
+void decodeHuffmanUtil(struct MinHeapNode* root, FILE* compressFile, FILE* compressAsciFile);
+void decodeHuffman(struct MinHeapNode* root, FILE* compressFile, FILE* compressAsciFile);
+
+#endif // ARVORE_H

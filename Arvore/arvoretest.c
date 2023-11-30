@@ -35,12 +35,15 @@ int main() {
         }
     }
 
-    struct Node* root = buildHuffmanTree(data, count, size);
+    struct MinHeapNode* root = buildHuffmanTree(data, count, size);
 
     int arr[100], top = 0;
-    printCodes(root, arr, top, compressFile);
 
-    printFrequencies(data, count, size);
+    // Imprimir no terminal
+    printFrequenciesWithCodes(root, data, count, size, arr, top);
+
+    // Imprimir no arquivo "compressao.txt"
+    printCodes(root, arr, top, compressFile);
 
     fclose(inputFile);
     fclose(compressFile);
@@ -54,7 +57,7 @@ int main() {
     }
 
     decodeHuffman(root, compressFile, compressAsciFile);
- 
+
     fclose(compressFile);
     fclose(compressAsciFile);
 

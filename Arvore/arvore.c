@@ -1,7 +1,9 @@
 #include "arvore.h"
+#include <stdio.h>
+#include <stdlib.h>
 
-struct Node* newNode(char data, unsigned freq) {
-    struct Node* temp = (struct Node*)malloc(sizeof(struct Node));
+struct MinHeapNode* newNode(char data, unsigned freq) {
+    struct MinHeapNode* temp = (struct MinHeapNode*)malloc(sizeof(struct MinHeapNode));
     temp->left = temp->right = NULL;
     temp->data = data;
     temp->freq = freq;
@@ -12,12 +14,12 @@ struct MinHeap* createMinHeap(unsigned capacity) {
     struct MinHeap* minHeap = (struct MinHeap*)malloc(sizeof(struct MinHeap));
     minHeap->size = 0;
     minHeap->capacity = capacity;
-    minHeap->array = (struct Node**)malloc(minHeap->capacity * sizeof(struct Node*));
+    minHeap->array = (struct MinHeapNode**)malloc(capacity * sizeof(struct MinHeapNode*));
     return minHeap;
 }
 
-void swapNode(struct Node** a, struct Node** b) {
-    struct Node* t = *a;
+void swapNode(struct MinHeapNode** a, struct MinHeapNode** b) {
+    struct MinHeapNode* t = *a;
     *a = *b;
     *b = t;
 }
@@ -43,38 +45,48 @@ int isSizeOne(struct MinHeap* minHeap) {
     return (minHeap->size == 1);
 }
 
-struct Node* extractMin(struct MinHeap* minHeap) {
-    struct Node* temp = minHeap->array[0];
+struct MinHeapNode* extractMin(struct MinHeap* minHeap) {
+    struct MinHeapNode* temp = minHeap->array[0];
     minHeap->array[0] = minHeap->array[minHeap->size - 1];
     --minHeap->size;
     minHeapify(minHeap, 0);
     return temp;
 }
 
-void insertMinHeap(struct MinHeap* minHeap, struct Node* node) {
+void insertMinHeap(struct MinHeap* minHeap, struct MinHeapNode* minHeapNode) {
     ++minHeap->size;
     int i = minHeap->size - 1;
 
-    while (i && node->freq < minHeap->array[(i - 1) / 2]->freq) {
+    while (i && minHeapNode->freq < minHeap->array[(i - 1) / 2]->freq) {
         minHeap->array[i] = minHeap->array[(i - 1) / 2];
         i = (i - 1) / 2;
     }
 
-    minHeap->array[i] = node;
+    minHeap->array[i] = minHeapNode;
 }
 
-struct Node* buildHuffmanTree(char data[], int freq[], int size) {
-    struct Node *left, *right, *top;
+void buildMinHeap(struct MinHeap* minHeap) {
+    int n = minHeap->size - 1;
+    int i;
+
+    for (i = (n - 1) / 2; i >= 0; --i)
+        minHeapify(minHeap, i);
+}
+
+struct MinHeapNode* buildHuffmanTree(char data[], int freq[], int size) {
     struct MinHeap* minHeap = createMinHeap(size);
 
     for (int i = 0; i < size; ++i)
-        insertMinHeap(minHeap, newNode(data[i], freq[i]));
+        minHeap->array[i] = newNode(data[i], freq[i]);
+
+    minHeap->size = size;
+    buildMinHeap(minHeap);
 
     while (!isSizeOne(minHeap)) {
-        left = extractMin(minHeap);
-        right = extractMin(minHeap);
+        struct MinHeapNode* left = extractMin(minHeap);
+        struct MinHeapNode* right = extractMin(minHeap);
 
-        top = newNode('$', left->freq + right->freq);
+        struct MinHeapNode* top = newNode('$', left->freq + right->freq);
         top->left = left;
         top->right = right;
 
@@ -84,47 +96,81 @@ struct Node* buildHuffmanTree(char data[], int freq[], int size) {
     return extractMin(minHeap);
 }
 
-void printCodes(struct Node* root, int arr[], int top, FILE* compressFile) {
-    if (root->left) {
-        arr[top] = 0;
-        printCodes(root->left, arr, top + 1, compressFile);
-    }
-
-    if (root->right) {
-        arr[top] = 1;
-        printCodes(root->right, arr, top + 1, compressFile);
-    }
-
-    if (!(root->left) && !(root->right)) {
+void printCodesUtil(struct MinHeapNode* root, int arr[], int top, FILE* compressFile) {
+    if (root->left == NULL && root->right == NULL) {
+        fprintf(compressFile, "%c: ", root->data);
         for (int i = 0; i < top; ++i) {
             fprintf(compressFile, "%d", arr[i]);
         }
+        fprintf(compressFile, "\n");
+    }
+
+    if (root->left != NULL) {
+        arr[top] = 0;
+        printCodesUtil(root->left, arr, top + 1, compressFile);
+    }
+
+    if (root->right != NULL) {
+        arr[top] = 1;
+        printCodesUtil(root->right, arr, top + 1, compressFile);
     }
 }
 
-void decodeHuffman(struct Node* root, FILE* compressFile, FILE* compressAsciFile) {
-    rewind(compressFile);
+void printCodes(struct MinHeapNode* root, int arr[], int top, FILE* compressFile) {
+    printCodesUtil(root, arr, top, compressFile);
+}
 
-    struct Node* current = root;
-
-    int bit;
-    while (fscanf(compressFile, "%1d", &bit) != EOF) {
-        if (bit == 0 && current->left) {
-            current = current->left;
-        } else if (bit == 1 && current->right) {
-            current = current->right;
-        }
-
-        if (!(current->left) && !(current->right)) {
-            fprintf(compressAsciFile, "%c", current->data);
-            current = root;  // Reinicia a busca no topo da árvore
-        }
+void printFrequenciesWithCodesUtil(struct MinHeapNode* root, char data[], int freq[], int size, int arr[], int top) {
+    if (root->left == NULL && root->right == NULL) {
+        printf("'%c': %d, Código Huffman: ", root->data, freq[(int)root->data]);
+        printCodesUtil(root, arr, top, stdout);
+        printf("\n");
     }
+
+    if (root->left != NULL) {
+        arr[top] = 0;
+        printFrequenciesWithCodesUtil(root->left, data, freq, size, arr, top + 1);
+    }
+
+    if (root->right != NULL) {
+        arr[top] = 1;
+        printFrequenciesWithCodesUtil(root->right, data, freq, size, arr, top + 1);
+    }
+}
+
+void printFrequenciesWithCodes(struct MinHeapNode* root, char data[], int freq[], int size, int arr[], int top) {
+    printf("Caracteres, suas frequências e códigos Huffman:\n");
+    printFrequenciesWithCodesUtil(root, data, freq, size, arr, top);
 }
 
 void printFrequencies(char data[], int freq[], int size) {
     printf("Caracteres e suas frequências:\n");
     for (int i = 0; i < size; ++i) {
-        printf("'%c': %d - %d \n", data[i], freq[i], printCodesUtil(struct MinHeapNode* root, int arr[], int top, FILE* compressFile));
+        printf("'%c': %d\n", data[i], freq[i]);
     }
+}
+
+void decodeHuffmanUtil(struct MinHeapNode* root, FILE* compressFile, FILE* compressAsciFile) {
+    struct MinHeapNode* current = root;
+
+    int bit;
+    while ((bit = fgetc(compressFile)) != EOF) {
+        if (bit == '0') {
+            current = current->left;
+        } else if (bit == '1') {
+            current = current->right;
+        }
+
+        if (current->left == NULL && current->right == NULL) {
+            // Chegamos a uma folha, ou seja, encontramos um caractere
+            fprintf(compressAsciFile, "%c", current->data);
+            current = root;  // Reiniciar a busca para o próximo caractere
+        }
+    }
+}
+
+
+void decodeHuffman(struct MinHeapNode* root, FILE* compressFile, FILE* compressAsciFile) {
+    // Chamada para a função auxiliar
+    decodeHuffmanUtil(root, compressFile, compressAsciFile);
 }
