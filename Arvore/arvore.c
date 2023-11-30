@@ -122,8 +122,11 @@ void printCodes(struct MinHeapNode* root, int arr[], int top, FILE* compressFile
 
 void printFrequenciesWithCodesUtil(struct MinHeapNode* root, char data[], int freq[], int size, int arr[], int top) {
     if (root->left == NULL && root->right == NULL) {
-        printf("'%c': %d, Código Huffman: ", root->data, freq[(int)root->data]);
-        printCodesUtil(root, arr, top, stdout);
+        char character = (root->data >= 0 && root->data < 256) ? root->data : ' ';
+        printf("'%c': %d, Código Huffman: ", character, freq[(int)root->data]);
+        for (int i = 0; i < top; ++i) {
+            printf("%d", arr[i]);
+        }
         printf("\n");
     }
 
@@ -143,12 +146,27 @@ void printFrequenciesWithCodes(struct MinHeapNode* root, char data[], int freq[]
     printFrequenciesWithCodesUtil(root, data, freq, size, arr, top);
 }
 
-void printFrequencies(char data[], int freq[], int size) {
-    printf("Caracteres e suas frequências:\n");
-    for (int i = 0; i < size; ++i) {
-        printf("'%c': %d\n", data[i], freq[i]);
+int calculateTotalBits(struct MinHeapNode* root, int freq[], int arr[], int top) {
+    int totalBits = 0;
+
+    if (root->left == NULL && root->right == NULL) {
+        totalBits += freq[(int)root->data] * top;
     }
+
+    if (root->left != NULL) {
+        arr[top] = 0;
+        totalBits += calculateTotalBits(root->left, freq, arr, top + 1);
+    }
+
+    if (root->right != NULL) {
+        arr[top] = 1;
+        totalBits += calculateTotalBits(root->right, freq, arr, top + 1);
+    }
+
+    return totalBits;
 }
+
+
 
 void decodeHuffmanUtil(struct MinHeapNode* root, FILE* compressFile, FILE* compressAsciFile) {
     struct MinHeapNode* current = root;

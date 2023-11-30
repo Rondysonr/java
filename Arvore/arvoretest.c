@@ -1,5 +1,6 @@
-#include <stdio.h>
+
 #include <stdlib.h>
+#include <stdio.h>
 #include "arvore.h"
 
 int main() {
@@ -12,9 +13,11 @@ int main() {
     }
 
     int freq[256] = {0};
-    char c;
+    int c;
     while ((c = fgetc(inputFile)) != EOF) {
-        freq[(int)c]++;
+        if (c >= 0 && c < 256) {
+            freq[c]++;
+        }
     }
 
     int size = 0;
@@ -38,12 +41,12 @@ int main() {
     struct MinHeapNode* root = buildHuffmanTree(data, count, size);
 
     int arr[100], top = 0;
-
-    // Imprimir no terminal
     printFrequenciesWithCodes(root, data, count, size, arr, top);
 
-    // Imprimir no arquivo "compressao.txt"
-    printCodes(root, arr, top, compressFile);
+    printFrequencies(data, count, size);
+
+    int totalBits = calculateTotalBits(root, count, arr, 0);
+    printf("Número total de bits: %d\n", totalBits);
 
     fclose(inputFile);
     fclose(compressFile);
