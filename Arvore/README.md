@@ -16,7 +16,7 @@ para torna-lo executavel.
     2 - ./meu_programa
 
 
-###DAS FUNÇÕES:
+### DAS FUNÇÕES:
 
 
 #newNode:
