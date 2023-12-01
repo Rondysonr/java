@@ -1,11 +1,8 @@
-
-#include <stdlib.h>
-#include <stdio.h>
 #include "arvore.h"
 
 int main() {
-    FILE* inputFile = fopen("planta.txt", "r");
-    FILE* compressFile = fopen("compressao.txt", "w");
+    FILE *inputFile = fopen("planta.txt", "r");
+    FILE *compressFile = fopen("compressao.txt", "w");
 
     if (!inputFile || !compressFile) {
         perror("Erro ao abrir o arquivo");
@@ -13,11 +10,9 @@ int main() {
     }
 
     int freq[256] = {0};
-    int c;
+    char c;
     while ((c = fgetc(inputFile)) != EOF) {
-        if (c >= 0 && c < 256) {
-            freq[c]++;
-        }
+        freq[(int)c]++;
     }
 
     int size = 0;
@@ -38,24 +33,26 @@ int main() {
         }
     }
 
-    struct MinHeapNode* root = buildHuffmanTree(data, count, size);
-
-    int arr[100], top = 0;
-    printFrequenciesWithCodes(root, data, count, size, arr, top);
+    struct Node *root = buildHuffmanTree(data, count, size);
 
     printFrequencies(data, count, size);
+    printHuffmanTree(root);
 
-    int totalBits = calculateTotalBits(root, count, arr, 0);
-    printf("Número total de bits: %d\n", totalBits);
+    int arr[100], top = 0;
+    printCodes(root, arr, top, compressFile);
 
-    fclose(inputFile);
     fclose(compressFile);
 
     compressFile = fopen("compressao.txt", "r");
-    FILE* compressAsciFile = fopen("compressaoAsci.txt", "w");
+    if (!compressFile) {
+        perror("Erro ao abrir o arquivo compressao.txt para leitura");
+        return 1;
+    }
 
-    if (!compressFile || !compressAsciFile) {
-        perror("Erro ao abrir o arquivo");
+    FILE *compressAsciFile = fopen("compressaoAsci.txt", "w");
+
+    if (!compressAsciFile) {
+        perror("Erro ao abrir o arquivo compressaoAsci.txt");
         return 1;
     }
 

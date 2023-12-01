@@ -1,52 +1,32 @@
-#include <stdlib.h>
+#ifndef ARVORE_H
+#define ARVORE_H
+
 #include <stdio.h>
 
-#ifndef ARVORE_H_INCLUDED
-#define ARVORE_H_INCLUDED
-
-struct MinHeapNode {
+struct Node {
     char data;
     unsigned freq;
-    struct MinHeapNode *left, *right;
+    struct Node *left, *right;
 };
 
 struct MinHeap {
     unsigned size;
     unsigned capacity;
-    struct MinHeapNode** array;
+    struct Node **array;
 };
 
-struct MinHeapNode* newNode(char data, unsigned freq);
+struct Node *newNode(char data, unsigned freq);
+struct MinHeap *createMinHeap(unsigned capacity);
+void swapNode(struct Node **a, struct Node **b);
+void minHeapify(struct MinHeap *minHeap, int idx);
+int isSizeOne(struct MinHeap *minHeap);
+struct Node *extractMin(struct MinHeap *minHeap);
+void insertMinHeap(struct MinHeap *minHeap, struct Node *node);
+struct Node *buildHuffmanTree(char data[], int freq[], int size);
+void printCodes(struct Node *root, int arr[], int top, FILE *compressFile);
+void decodeHuffman(struct Node *root, FILE *compressFile, FILE *compressAsciFile);
+void printFrequencies(char data[], int freq[], int size);
+void printHuffmanCodes(struct Node *root, char code[], int top);
+void printHuffmanTree(struct Node *root);
 
-struct MinHeap* createMinHeap(unsigned capacity);
-
-void swapNode(struct MinHeapNode** a, struct MinHeapNode** b);
-
-void minHeapify(struct MinHeap* minHeap, int idx);
-
-int isSizeOne(struct MinHeap* minHeap);
-
-struct MinHeapNode* extractMin(struct MinHeap* minHeap);
-
-void insertMinHeap(struct MinHeap* minHeap, struct MinHeapNode* minHeapNode);
-
-void buildMinHeap(struct MinHeap* minHeap);
-
-struct MinHeapNode* buildHuffmanTree(char data[], int freq[], int size);
-
-void printCodesUtil(struct MinHeapNode* root, int arr[], int top, FILE* compressFile);
-
-void printCodes(struct MinHeapNode* root, int arr[], int top, FILE* compressFile);
-
-void printFrequenciesWithCodesUtil(struct MinHeapNode* root, char data[], int freq[], int size, int arr[], int top);
-
-void printFrequenciesWithCodes(struct MinHeapNode* root, char data[], int freq[], int size, int arr[], int top);
-
-
-void decodeHuffmanUtil(struct MinHeapNode* root, FILE* compressFile, FILE* compressAsciFile);
-
-void decodeHuffman(struct MinHeapNode* root, FILE* compressFile, FILE* compressAsciFile);
-
-int calculateTotalBits(struct MinHeapNode* root, int freq[], int arr[], int top);
-
-#endif // ARVORE_H_INCLUDED
+#endif
