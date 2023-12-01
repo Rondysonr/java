@@ -14,7 +14,7 @@ para torna-lo executavel.
     2 - ./meu_programa
 
 
-##DAS FUNÇÕES:
+###DAS FUNÇÕES:
 
 
 #newNode:
@@ -111,3 +111,4 @@ Parâmetros:
 ```c
     -struct Node* root: Raiz da árvore.
     ```c
+    ###fim
