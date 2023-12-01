@@ -110,6 +110,6 @@ em seguida le compressao.txt e retorna a comparação de huffman com a tabela As
 Descrição: Imprime os caracteres e seus códigos Huffman.
 Parâmetros:
     ```c
-    -struct Node* root: Raiz da árvore.
+    - struct Node* root: Raiz da árvore.
     ```
  
