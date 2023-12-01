@@ -149,7 +149,7 @@ void printHuffmanCodes(struct Node *root, char code[], int top) {
 }
 
 void printHuffmanTree(struct Node *root) {
-    char code[100]; // Ajuste conforme necessário
+    char code[100]; 
     int top = 0;
     printf("Caracteres e seus códigos Huffman:\n");
     printHuffmanCodes(root, code, top);
