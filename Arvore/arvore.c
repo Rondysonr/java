@@ -154,3 +154,23 @@ void printHuffmanTree(struct Node *root) {
     printf("Caracteres e seus códigos Huffman:\n");
     printHuffmanCodes(root, code, top);
 }
+// Função para contar caracteres em um arquivo e imprimir o resultado
+void countCharactersInFile(const char *filename) {
+    FILE *file = fopen(filename, "r");
+
+    if (!file) {
+        perror("Erro ao abrir o arquivo");
+        return;
+    }
+
+    int charCount = 0;
+    char c;
+
+    while ((c = fgetc(file)) != EOF) {
+        charCount++;
+    }
+
+    printf("Quantidade de caracteres no arquivo %s: %d\n", filename, charCount);
+
+    fclose(file);
+}

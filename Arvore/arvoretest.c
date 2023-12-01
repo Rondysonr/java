@@ -60,6 +60,7 @@ int main() {
 
     fclose(compressFile);
     fclose(compressAsciFile);
-
+    countCharactersInFile("planta.txt");
+    countCharactersInFile("compressaoAsci.txt");
     return 0;
 }

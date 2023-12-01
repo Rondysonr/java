@@ -28,5 +28,6 @@ void decodeHuffman(struct Node *root, FILE *compressFile, FILE *compressAsciFile
 void printFrequencies(char data[], int freq[], int size);
 void printHuffmanCodes(struct Node *root, char code[], int top);
 void printHuffmanTree(struct Node *root);
+void countCharactersInFile(const char *filename);
 
 #endif
