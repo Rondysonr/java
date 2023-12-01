@@ -7,8 +7,7 @@ em seguida le compressao.txt e retorna a comparação de huffman com a tabela As
 ## Instruções: 
     1 - Verifique se o seu arquivo possui o nome "planta".
     2 - A cada nova atualização no codigo execute a instrução Execução
-para torna-lo executavel.
-
+    para torna-lo executavel.
 
 ## Execução:
   
@@ -19,7 +18,7 @@ para torna-lo executavel.
 ### DAS FUNÇÕES:
 
 
-#newNode:
+# newNode:
     Descrição: Cria um novo nó para a árvore de Huffman com o caractere e a frequência fornecidos.
     Parâmetros:
     ```c
@@ -86,18 +85,18 @@ para torna-lo executavel.
 # decodeHuffman:
     Descrição: Decodifica os bits da compressão Huffman para os caracteres originais.
     Parâmetros:
-    ```
+    ```c
         struct Node* root: Raiz da árvore de Huffman.
         FILE* compressFile: Arquivo contendo os bits comprimidos.
         FILE* compressAsciFile: Arquivo para gravar os caracteres decodificados.
-    ```c
+    ```
 # printFrequencies:
     Descrição: Imprime os caracteres e suas frequências.
     Parâmetros:
     ```c
        - char data[]: Array de caracteres.
        - int freq[]: Array de frequências correspondentes.
-        int size: Tamanho dos arrays.
+         int size: Tamanho dos arrays.
     ```
 # printHuffmanCodes:
     Descrição: Imprime os códigos Huffman para cada caractere na árvore.
@@ -106,7 +105,7 @@ para torna-lo executavel.
         -struct Node* root: Raiz da árvore.
         -char code[]: Array temporário para armazenar os códigos.
         -int top: Índice do topo do array.
-    ```c
+    ```
 # printHuffmanTree:
 Descrição: Imprime os caracteres e seus códigos Huffman.
 Parâmetros:
