@@ -1,4 +1,5 @@
-## Sobre o Codigo: Este codigo não tem menu, ele le um arquivo chamado planta 
+## Sobre o Codigo: 
+Este codigo não tem menu, ele le um arquivo chamado planta 
 cria a arvore e imprime no terminal, caractere e frequencia e em seguida caractere e código de huffman
 gera um arquivo chamado compressao.txt com os codigos de huffman de todas as variaveis,
 em seguida le compressao.txt e retorna a comparação de huffman com a tabela Asci em compressaoAsci.txt,
