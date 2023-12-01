@@ -15,7 +15,7 @@ em seguida le compressao.txt e retorna a comparação de huffman com a tabela As
     2 - ./meu_programa
 
 
-### DAS FUNÇÕES:
+## DAS FUNÇÕES:
 
 
 # newNode:
