@@ -1,2 +1,8 @@
 Olá 
-Esta sessão foi criada para acompanha o meu desenvolvimento na linguagem JAVA!  
+Aprendendo JAVA!  
+
+    O capitulo 2
+        refere-se a operações basicas com soma, subtração, mutiplicação...
+
+    Ocapitulo 3
+        refere-se a laços de repetições
