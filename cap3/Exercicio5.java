@@ -1,7 +1,7 @@
-public class Exercicio4{
+public class Exercicio5{
 	public static void main(String args[]){
-        for(int i=1; i<=10; i++){
-            int j=i, r=1;
+        for(long i=1; i<=40; i++){
+            long j=i, r=1;
             while(j>0){
                 r=r*(j--);
             }			
