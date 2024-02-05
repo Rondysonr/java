@@ -1,9 +1,10 @@
-public class exercicio2{
+public class exercicio3{
 	public static void main(String args[]){
-		int j=0;
-        for(int i=0; i<1001; i++){
-			j=j+i;
+        for(int i=1; i<100; i++){
+			if(i%3==0){
+                System.out.println(i+"é multiplo de 3");	
+            }
 		}
-        System.out.println(j);	
+        
 	}
 }
