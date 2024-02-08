@@ -1,3 +1,7 @@
+/* O erro apresentado é devido aos fatoriais serem muito longos
+ficando inviavel usar variaveis do tipo int para armazenalos, e 
+posteriormente o tipo long fica inviavel*/
+
 public class Exercicio5{
 	public static void main(String args[]){
         for(long i=1; i<=40; i++){
@@ -9,5 +13,3 @@ public class Exercicio5{
 		} 
 	}
 }
-/* O erro apresentado é devido aos fatoriais serem muito longos
-fica inviavel usar variaveis do tipo long*/
