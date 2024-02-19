@@ -26,12 +26,13 @@ public class Conta{
        public double rendimento(){
         return saldo *0.1;
        }
-
+    
        public String recuperaDadosParaImpressao() {
-        String dados =  titular + "\n" 
-                        + numeroCC + "\n" 
-                        + agencia + "\n" 
-                        + saldo + "\n";
-        return dados;
+    String dados =  titular + "\n" 
+                    + numeroCC + "\n" 
+                    + agencia + "\n" 
+                    + saldo + "\n"
+                    + "Data de Abertura: " + dataDeAbertura.formatada() + "\n";
+    return dados;
     }
 }
