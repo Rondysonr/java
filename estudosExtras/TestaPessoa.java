@@ -5,8 +5,6 @@ public class TestaPessoa{
         String nome1 = Teclado.lerString("digite um nome");
         String cpf1 = Teclado.lerString("digite um cpf");
         p1.setPessoa(nome1, cpf1);
-        p1.getPessoa();
-        nome1 = p1.getPessoa();
-        System.out.println(nome1);
+        p1.printPessoa();       
     }  
 }
